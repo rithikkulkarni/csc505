@@ -79,6 +79,13 @@ heap size, or other control variables."
   (not graded here, kept for the separate written analysis in `SOLUTIONS.md`).
 - `SortingTest.py` — **untouched**, exactly as supplied.
 - `BubbleSortTest.py` — new, bubble-sort-only tests, kept out of `SortingTest.py`.
+- `EdgeCaseTest.py` — new, real `assertEqual` tests (sorted output *and* exact
+  `comparison_count`) for `insertion_sort`, `merge_sort`, `heap_sort` against every
+  input class the assignment requires: empty, one-element, all-duplicates,
+  mixed-duplicates, negatives, negative-duplicates, already-sorted, reverse-sorted.
+  `comparison_count_report.md` printed these numbers but asserted nothing, so this
+  file is the first place those cases are actually checked automatically. Kept
+  separate from `SortingTest.py` for the same reason as `BubbleSortTest.py`.
 - `generate_comparison_report.py` — new, standalone script (does not import or modify
   `SortingTest.py`) that runs every algorithm against the supplied test inputs plus the
   assignment's required edge cases (empty, one-element, duplicates, negative values,
@@ -88,9 +95,9 @@ heap size, or other control variables."
 
 - `python -m unittest SortingTest -v`: all 3 supplied tests pass, unmodified file.
 - `python -m unittest BubbleSortTest -v`: all 3 bubble-sort tests pass.
-- Edge-case check (empty, one-element, all-duplicates, negatives, sorted,
-  reverse-sorted) for `insertion_sort`, `merge_sort`, `heap_sort`: all produce
-  `sorted(input)` correctly.
+- `python -m unittest EdgeCaseTest -v`: all 3 tests (one per algorithm, each looping
+  over 8 edge-case inputs via `subTest`) pass, asserting both sorted output and exact
+  comparison count for every case.
 - Randomized check, 300 trials, array sizes 0-20, values in [-15, 14] (duplicates and
   negatives included by construction): all three produce `sorted(input)` correctly.
 - `generate_comparison_report.py` output is in `comparison_count_report.md` (42 runs:
