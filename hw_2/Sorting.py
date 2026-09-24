@@ -6,30 +6,36 @@ class Sorting:
     def merge_sort(self, p, r):
         if p >= r:
             return
+        
         q = (p + r) // 2
         self.merge_sort(p, q)
         self.merge_sort(q + 1, r)
-        self._merge(p, q, r)
+        self.merge(p, q, r)
 
-    def _merge(self, p, q, r):
+    def merge(self, p, q, r):
         a = self.sorting_array
         left = a[p:q + 1]
         right = a[q + 1:r + 1]
         i = j = 0
         k = p
+
         while i < len(left) and j < len(right):
             self.comparison_count += 1
+
             if left[i] <= right[j]:
                 a[k] = left[i]
                 i += 1
             else:
                 a[k] = right[j]
                 j += 1
+
             k += 1
+
         while i < len(left):
             a[k] = left[i]
             i += 1
             k += 1
+
         while j < len(right):
             a[k] = right[j]
             j += 1
@@ -39,20 +45,19 @@ class Sorting:
         a = self.sorting_array
         n = len(a)
 
-        # Phase 1: BUILD-MAX-HEAP(A, n): heapify down from the last internal node (index n//2 - 1) up to the root.
         for i in range(n // 2 - 1, -1, -1):
-            self._max_heapify(i, n)
+            self.max_heapify(i, n)
 
-        # Phase 2: HEAPSORT(A, n): repeatedly swap the max into the slot freed up at the end 
-        # of the heap region, shrink the heap, and sift the new root down.
         heap_size = n
+
         for end in range(n - 1, 0, -1):
             a[0], a[end] = a[end], a[0]
             heap_size -= 1
-            self._max_heapify(0, heap_size)
+            self.max_heapify(0, heap_size)
 
-    def _max_heapify(self, i, heap_size):
+    def max_heapify(self, i, heap_size):
         a = self.sorting_array
+        
         while True:
             left = 2 * i + 1
             right = 2 * i + 2
@@ -73,9 +78,11 @@ class Sorting:
     def insertion_sort(self):
         a = self.sorting_array
         n = len(a)
+
         for i in range(1, n):
             key = a[i]
             j = i - 1
+
             while True:
                 if j < 0:
                     break
